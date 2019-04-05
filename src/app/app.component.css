@@ -1,0 +1,20 @@
+* {
+    font-family: 'Ubuntu Mono', monospace;
+}
+
+
+.headerMain {
+  color: blue;
+  background-color: aqua;
+  padding: 10px;
+  font-size: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.sectionMain {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

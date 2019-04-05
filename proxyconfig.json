@@ -1,0 +1,9 @@
+{
+  "/BeOnTime/*": {
+    "target": "http://beontime.be-academy.pl/gateway",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": { "^/BeOnTime": "" }
+  }
+}

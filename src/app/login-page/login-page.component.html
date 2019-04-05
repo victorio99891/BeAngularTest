@@ -1,0 +1,18 @@
+<p>
+  Login:
+  <br />
+  <input type="text" [(ngModel)]="loginInput" />
+</p>
+<p>
+  Password:
+  <br />
+  <input type="password" [(ngModel)]="passwordInput" />
+</p>
+<p>
+  <input type="button" value="Login" (click)="login()" />
+</p>
+<section class="errorSection">
+  <p *ngIf="isError">
+    {{ message }}
+  </p>
+</section>
