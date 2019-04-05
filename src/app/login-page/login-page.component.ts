@@ -14,7 +14,6 @@ export class LoginPageComponent implements OnInit {
   loginInput: string;
   passwordInput: string;
 
-  @Input()
   userModel: UserModel;
 
   @Output()
@@ -23,36 +22,36 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private cookieService: CookieService
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.loginInput = 't4.email@be-tse.com';
     this.passwordInput = 'qwe123!';
   }
 
-  ngOnInit() {}
-
   login(): void {
     const isExpired: boolean = this.loginService.isTokenExpired(
-      this.cookieService.get('JWT'),
-      this.loginInput
+      this.cookieService.get('JWT')
     );
 
-    if (isExpired) {
+    if (
+      // isExpired &&
+      this.cookieService.get('CURRENT_USER') !== this.loginInput
+    ) {
       this.cookieService.delete('JWT');
       this.loginService
         .getTokenAndUser(this.loginInput, this.passwordInput)
         .subscribe(response => {
           this.userModel = response.body;
           this.cookieService.set('JWT', response.headers.get('authorization'));
+          this.cookieService.set('CURRENT_USER', response.body.email);
+          this.emitUser(this.userModel);
         });
-      setTimeout(() => {
-        this.emitUser();
-        console.log('Emitted!');
-      }, 1000);
     }
   }
 
-  emitUser() {
-    this.emitUserModel.emit(this.userModel);
+  emitUser(userModel: UserModel) {
+    this.emitUserModel.emit(userModel);
     console.log('User model in login page:');
     console.log(this.userModel);
   }

@@ -17,6 +17,9 @@ export class MainComponent implements OnInit {
 
   getCurrentLogedUser(userModel: UserModel) {
     this.userModelMain = userModel;
+  }
+
+  printUserData(){
     console.log(this.userModelMain);
   }
 }

@@ -9,9 +9,11 @@ import { CookieService } from 'ngx-cookie-service';
 export class AppComponent implements OnInit {
   title = 'beontime-my-test';
 
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService: CookieService) {
+    this.cookieService.deleteAll();
+  }
 
   ngOnInit(): void {
-    this.cookieService.deleteAll();
+ 
   }
 }

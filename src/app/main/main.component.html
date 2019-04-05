@@ -1,2 +1,2 @@
-<app-login-page (userModelMain)="getCurrentLogedUser($event)"></app-login-page>
-<button (click)="getCurrentLogedUser($event)"></button>
+<app-login-page (emitUserModel)="getCurrentLogedUser($event)"></app-login-page>
+<button (click)="printUserData()"></button>

@@ -38,16 +38,8 @@ export class LoginService {
     return date;
   }
 
-  checkIsTheSameUserTryLogin(token?: string, currentUser?: string): boolean {
-    const decoded = jwt_decode(token);
-    console.log("Current: " + currentUser + "\n Old:" + decoded.sub);
-    if (decoded.sub === currentUser) {
-      return true;
-    }
-    return false;
-  }
 
-  isTokenExpired(token?: string, currentUser?: string): boolean {
+  isTokenExpired(token?: string): boolean {
     if (!token) {
       token = this.cookieService.get("JWT");
     }
@@ -57,9 +49,6 @@ export class LoginService {
     const date = this.getTokenExpirationDate(token);
     if (date === undefined) {
       return false;
-    }
-    if (!this.checkIsTheSameUserTryLogin(token, currentUser)) {
-      return true;
     }
     return !(date.valueOf() > new Date().valueOf());
   }
