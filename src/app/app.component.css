@@ -14,7 +14,10 @@
 }
 
 .sectionMain {
+  background-color: aquamarine;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
