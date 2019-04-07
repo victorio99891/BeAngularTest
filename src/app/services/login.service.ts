@@ -1,30 +1,60 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpResponse } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { UserModel } from "../models/UserModel";
-import * as jwt_decode from "jwt-decode";
-import { CookieService } from "ngx-cookie-service";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UserModel } from '../models/UserModel';
+import * as jwt_decode from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
+import { Route } from '@angular/compiler/src/core';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class LoginService {
+  loggedIn = true;
+  loggedUser: UserModel;
+
   constructor(
     private httpService: HttpClient,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private router: Router
   ) {}
+
+  isAuthenticated() {
+    return new Promise((resolve, reject) => {
+      if (this.cookieService.check('JWT')) {
+        const token: string = this.cookieService.get('JWT');
+
+        if (this.isTokenExpired(token)) {
+          this.loggedIn = false;
+        } else {
+          this.loggedIn = true;
+        }
+      } else {
+        this.loggedIn = false;
+      }
+
+      resolve(this.loggedIn);
+    });
+  }
+
+  logOutCurrentUser(){
+    this.cookieService.deleteAll();
+    this.loggedUser = undefined;
+    this.router.navigateByUrl('/');
+  }
 
   getTokenAndUser(
     login: string,
     password: string
   ): Observable<HttpResponse<UserModel>> {
     return this.httpService.post<HttpResponse<UserModel>>(
-      "/BeOnTime/auth/login",
+      '/BeOnTime/auth/login',
       {
         username: login,
         password: password
       },
-      { observe: "response" as "body" }
+      { observe: 'response' as 'body' }
     );
   }
 
@@ -38,10 +68,9 @@ export class LoginService {
     return date;
   }
 
-
   isTokenExpired(token?: string): boolean {
     if (!token) {
-      token = this.cookieService.get("JWT");
+      token = this.cookieService.get('JWT');
     }
     if (!token) {
       return true;

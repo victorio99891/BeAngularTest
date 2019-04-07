@@ -8,18 +8,8 @@ import { UserModel } from '../models/UserModel';
 })
 export class MainComponent implements OnInit {
 
-  @Input()
-  userModelMain: UserModel;
-
   constructor() {}
 
   ngOnInit() {}
 
-  getCurrentLogedUser(userModel: UserModel) {
-    this.userModelMain = userModel;
-  }
-
-  printUserData(){
-    console.log(this.userModelMain);
-  }
 }

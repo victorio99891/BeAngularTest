@@ -11,8 +11,13 @@
 <p>
   <input type="button" value="Login" (click)="login()" />
 </p>
-<section class="errorSection">
-  <p *ngIf="isError">
+<section>
+  <p
+    [ngClass]="{
+      errorSection: !isLoginSuccess,
+      errorGoodSection: isLoginSuccess
+    }"
+  >
     {{ message }}
   </p>
 </section>

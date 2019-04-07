@@ -1,0 +1,13 @@
+<section class="loggedUserSection">
+    <b>Logged user details:</b> | <b>ID:</b>
+    <span class="blueText">{{ userModel.userId }} </span> | <b>Name:</b>
+    {{ userModel.firstName }} | <b>Surname:</b> {{ userModel.lastName }} |
+    <b>Active:</b>
+    <span [ngClass]="{ greenText: userModel.active, redText: !userModel.active }">
+      {{ userModel.active }} </span
+    >| <b>Roles:</b> [<span *ngFor="let item of userModel.roles; let last = last">
+      <span *ngIf="!last">{{ item }}, </span>
+      <span *ngIf="last">{{ item }}</span> </span
+    >]
+    <button (click)="logOut()">Logout</button>
+  </section>

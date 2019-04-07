@@ -1,0 +1,19 @@
+.loggedUserSection {
+    font-size: 20px;
+}
+
+.userManagementSection {
+    display: flex;
+}
+
+.blueText {
+    color: blue;
+}
+
+.greenText {
+    color: green;
+}
+
+.redText {
+    color: red;
+}

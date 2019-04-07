@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserModel } from '../models/UserModel';
+import { Router } from '@angular/router';
+import { Observable, timer } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -10,7 +12,7 @@ import { UserModel } from '../models/UserModel';
 })
 export class LoginPageComponent implements OnInit {
   message: string;
-  isError: boolean;
+  isLoginSuccess: boolean;
   loginInput: string;
   passwordInput: string;
 
@@ -21,7 +23,8 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -30,23 +33,36 @@ export class LoginPageComponent implements OnInit {
   }
 
   login(): void {
-    const isExpired: boolean = this.loginService.isTokenExpired(
-      this.cookieService.get('JWT')
-    );
-
-    if (
-      // isExpired &&
-      this.cookieService.get('CURRENT_USER') !== this.loginInput
-    ) {
+    if (this.cookieService.get('CURRENT_USER') !== this.loginInput) {
       this.cookieService.delete('JWT');
       this.loginService
         .getTokenAndUser(this.loginInput, this.passwordInput)
-        .subscribe(response => {
-          this.userModel = response.body;
-          this.cookieService.set('JWT', response.headers.get('authorization'));
-          this.cookieService.set('CURRENT_USER', response.body.email);
-          this.emitUser(this.userModel);
-        });
+        .subscribe(
+          response => {
+            this.isLoginSuccess = true;
+            this.message = 'Success login!';
+            this.userModel = response.body;
+            this.cookieService.set(
+              'JWT',
+              response.headers.get('authorization')
+            );
+            this.cookieService.set('CURRENT_USER', response.body.email);
+            this.loginService.loggedUser = this.userModel;
+            this.emitUser(this.userModel);
+            if (this.isLoginSuccess) {
+              timer(1000).subscribe(i => {
+                this.router.navigate(['/main-pannel']);
+              });
+            }
+          },
+          error => {
+            if (error.status === 403) {
+              this.isLoginSuccess = false;
+              this.message = 'Bad credentials!';
+            }
+            this.cookieService.deleteAll();
+          }
+        );
     }
   }
 
