@@ -16,13 +16,13 @@ export class CurrentUserPannelComponent implements OnInit {
     private departmentService: DepartmentService
   ) {
     this.userModel = this.loginService.loggedUser;
-  }
-
-  ngOnInit() {
     this.departmentService.getDepartmentList().subscribe(response => {
       this.departmentService.departmentList =
         response._embedded.departmentBodyList;
     });
+  }
+
+  ngOnInit() {
   }
 
   logOut() {

@@ -1,16 +1,63 @@
 <section class="userManagementSection">
-  <table>
-    <tr>
-      <th>Name:</th>
-      <th>Lastname:</th>
-      <th>Active:</th>
-      <th>Department:</th>
-    </tr>
-    <tr *ngFor="let user of usersList">
-      <td>{{ user.firstName }}</td>
-      <td>{{ user.lastName }}</td>
-      <td>{{ user.active }}</td>
-      <td>{{ user.departmentName }}</td>
-    </tr>
+  <table class="cinereousTable">
+    <thead>
+      <tr>
+        <th rowspan="2">Name:</th>
+        <th rowspan="2">Lastname:</th>
+        <th rowspan="2">Active:</th>
+        <th colspan="3">Roles:</th>
+
+        <th rowspan="2">Department:</th>
+      </tr>
+      <tr>
+        <th>CONSULTANT</th>
+        <th>ADMINISTRATION</th>
+        <th>MANAGER</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of usersList; let index = index">
+        <td id="{{ 'firstName_' + index }}">{{ user.firstName }}</td>
+        <td id="{{ 'lastName_' + index }}">{{ user.lastName }}</td>
+        <td
+          id="{{ 'status_' + index }}"
+          (change)="changeEditedFieldBackground($event, user.userId)"
+        >
+          <select>
+            <option *ngFor="let status of statuses" [selected]="!user.active">{{
+              status
+            }}</option>
+          </select>
+        </td>
+        <td
+          id="{{ 'isConsultant_' + index }}"
+          (change)="changeEditedFieldBackground($event, user.userId)"
+        >
+          <input
+            type="checkbox"
+            [checked]="user.roles.includes('CONSULTANT')"
+          />
+        </td>
+        <td
+          id="{{ 'isAdministration_' + index }}"
+          (change)="changeEditedFieldBackground($event, user.userId)"
+        >
+          <input
+            type="checkbox"
+            [checked]="user.roles.includes('ADMINISTRATION')"
+          />
+        </td>
+        <td
+          id="{{ 'isManager_' + index }}"
+          (change)="changeEditedFieldBackground($event, user.userId)"
+        >
+          <input type="checkbox" [checked]="user.roles.includes('MANAGER')" />
+        </td>
+        <td id="{{ 'department_' + index }}">{{ user.departmentName }}</td>
+      </tr>
+    </tbody>
   </table>
+  <button (click)="showAll()">
+    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPRRRRRRRRRRRRRRRRRRRRRRRIIIIIIIIIIIIIIIIIINNNNNNNNNNNNTTTTTTT
+  </button>
 </section>
