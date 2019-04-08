@@ -14,6 +14,8 @@ import { AuthGuard } from './auth-guard.service';
 import { LoginService } from './services/login.service';
 import { SubMainComponent } from './sub-main/sub-main.component';
 import { CurrentUserPannelComponent } from './current-user-pannel/current-user-pannel.component';
+import { UserService } from './services/user.service';
+import { DepartmentService } from './services/department.service';
 
 const appRoutes: Routes = [
   {
@@ -34,16 +36,21 @@ const appRoutes: Routes = [
     MainComponent,
     UserManagementComponent,
     SubMainComponent,
-    CurrentUserPannelComponent,
+    CurrentUserPannelComponent
   ],
   imports: [
-  
-  BrowserModule,
+    BrowserModule,
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [CookieService, LoginService, AuthGuard],
+  providers: [
+    CookieService,
+    UserService,
+    DepartmentService,
+    LoginService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

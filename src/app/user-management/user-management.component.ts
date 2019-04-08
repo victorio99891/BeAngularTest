@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, DoCheck } from '@angular/core';
 import { UserModel } from './../models/UserModel';
 import { LoginService } from './../services/login.service';
+import { UserService } from './../services/user.service';
+import { DepartmentService } from './../services/department.service';
 
 @Component({
   selector: 'app-user-management',
@@ -8,12 +10,33 @@ import { LoginService } from './../services/login.service';
   styleUrls: ['./user-management.component.css']
 })
 export class UserManagementComponent implements OnInit {
+  loggedUserModel: UserModel;
 
-  userModel: UserModel;
+  usersList: Array<UserModel>;
 
-  constructor(private loginService: LoginService) {
-    this.userModel = this.loginService.loggedUser;
+  constructor(
+    private loginService: LoginService,
+    private userService: UserService,
+    private departmentService: DepartmentService
+  ) {
+    this.loggedUserModel = this.loginService.loggedUser;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.callApi();
+  }
+
+
+  callApi() {
+    this.userService.getAllUser().subscribe(response => {
+      this.usersList = response._embedded.userBodyList;
+      this.usersList.forEach(user => {
+        this.departmentService.departmentList.forEach(department => {
+          if (department.departmentId === user.department) {
+            user.departmentName = department.name;
+          }
+        });
+      });
+    });
+  }
 }

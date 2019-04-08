@@ -1,3 +1,16 @@
 <section class="userManagementSection">
-    user management section
+  <table>
+    <tr>
+      <th>Name:</th>
+      <th>Lastname:</th>
+      <th>Active:</th>
+      <th>Department:</th>
+    </tr>
+    <tr *ngFor="let user of usersList">
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.lastName }}</td>
+      <td>{{ user.active }}</td>
+      <td>{{ user.departmentName }}</td>
+    </tr>
+  </table>
 </section>

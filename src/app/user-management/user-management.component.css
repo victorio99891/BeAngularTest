@@ -1,5 +1,14 @@
 .userManagementSection {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+}
+
+.userManagementSection ul li {
+  list-style: none;
+}
+
+.userField {
+  border: 1px solid black;
+  width: 96%;
 }
