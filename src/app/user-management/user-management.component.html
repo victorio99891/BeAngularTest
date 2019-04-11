@@ -4,9 +4,9 @@
       <tr>
         <th rowspan="2">Name:</th>
         <th rowspan="2">Lastname:</th>
+        <th rowspan="2">Email:</th>
         <th rowspan="2">Active:</th>
         <th colspan="3">Roles:</th>
-
         <th rowspan="2">Department:</th>
       </tr>
       <tr>
@@ -19,9 +19,11 @@
       <tr *ngFor="let user of usersList; let index = index">
         <td id="{{ 'firstName_' + index }}">{{ user.firstName }}</td>
         <td id="{{ 'lastName_' + index }}">{{ user.lastName }}</td>
+        <td id="{{ 'email_' + index }}">{{ user.email }}</td>
         <td
           id="{{ 'status_' + index }}"
           (change)="changeEditedFieldBackground($event, user.userId)"
+          class="normalField"
         >
           <select>
             <option *ngFor="let status of statuses" [selected]="!user.active">{{
@@ -31,7 +33,10 @@
         </td>
         <td
           id="{{ 'isConsultant_' + index }}"
-          (change)="changeEditedFieldBackground($event, user.userId)"
+          (change)="
+            changeEditedFieldBackground($event, user.userId, 'CONSULTANT')
+          "
+          class="normalField"
         >
           <input
             type="checkbox"
@@ -40,7 +45,10 @@
         </td>
         <td
           id="{{ 'isAdministration_' + index }}"
-          (change)="changeEditedFieldBackground($event, user.userId)"
+          (change)="
+            changeEditedFieldBackground($event, user.userId, 'ADMINISTRATION')
+          "
+          class="normalField"
         >
           <input
             type="checkbox"
@@ -49,7 +57,8 @@
         </td>
         <td
           id="{{ 'isManager_' + index }}"
-          (change)="changeEditedFieldBackground($event, user.userId)"
+          (change)="changeEditedFieldBackground($event, user.userId, 'MANAGER')"
+          class="normalField"
         >
           <input type="checkbox" [checked]="user.roles.includes('MANAGER')" />
         </td>
@@ -57,7 +66,13 @@
       </tr>
     </tbody>
   </table>
-  <button (click)="showAll()">
-    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPRRRRRRRRRRRRRRRRRRRRRRRIIIIIIIIIIIIIIIIIINNNNNNNNNNNNTTTTTTT
+  <button (click)="showAll()" [disabled]="submitDataButtonNotActive">
+    SUBMIT CHNAGED DATA (MOCK)
+  </button>
+  <button (click)="sentData()" [disabled]="sentDataButtonNotActive">
+    SEND DATA TO THE SERVER (MOCK)
+  </button>
+  <button (click)="getDebugList()">
+    GET EDITED ELEMENTS
   </button>
 </section>

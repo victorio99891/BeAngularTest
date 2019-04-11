@@ -8,13 +8,15 @@
   list-style: none;
 }
 
-.userField {
-  border: 1px solid black;
-  width: 96%;
+.normalField {
 }
 
 .editedField {
   background-color: rgb(225, 0, 255);
+}
+
+.submittedField {
+  background-color: #148105;
 }
 
 table.cinereousTable {
