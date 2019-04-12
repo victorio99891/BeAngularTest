@@ -7,15 +7,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 import { AppComponent } from './app.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { MainComponent } from './main/main.component';
-import { UserManagementComponent } from './user-management/user-management.component';
-import { AuthGuard } from './auth-guard.service';
+import { LoginPageComponent } from './sub-main/login-page/login-page.component';
+import { UserManagementComponent } from './sub-main/user-management/user-management.component';
+import { AuthGuard } from './services/auth-guard.service';
 import { LoginService } from './services/login.service';
 import { SubMainComponent } from './sub-main/sub-main.component';
-import { CurrentUserPannelComponent } from './current-user-pannel/current-user-pannel.component';
+import { CurrentUserPannelComponent } from './header/current-user-pannel/current-user-pannel.component';
 import { UserService } from './services/user.service';
 import { DepartmentService } from './services/department.service';
+import { NavigationBarComponent } from './header/navigation-bar/navigation-bar.component';
 
 const appRoutes: Routes = [
   {
@@ -33,10 +33,10 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     LoginPageComponent,
-    MainComponent,
     UserManagementComponent,
     SubMainComponent,
-    CurrentUserPannelComponent
+    CurrentUserPannelComponent,
+    NavigationBarComponent
   ],
   imports: [
     BrowserModule,

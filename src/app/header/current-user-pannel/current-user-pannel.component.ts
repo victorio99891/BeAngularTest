@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserModel } from '../models/UserModel';
-import { LoginService } from '../services/login.service';
-import { DepartmentService } from './../services/department.service';
+import { UserModel } from '../../models/UserModel';
+import { LoginService } from '../../services/login.service';
+import { DepartmentService } from '../../services/department.service';
 
 @Component({
   selector: 'app-current-user-pannel',

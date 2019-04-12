@@ -1,13 +1,9 @@
 import { Component, OnInit, Input, DoCheck } from '@angular/core';
-import { UserModel } from './../models/UserModel';
-import { LoginService } from './../services/login.service';
-import { UserService } from './../services/user.service';
-import { DepartmentService } from './../services/department.service';
-import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
-import { Event } from '@angular/router';
+import { UserModel } from '../../models/UserModel';
+import { LoginService } from '../../services/login.service';
+import { UserService } from '../../services/user.service';
+import { DepartmentService } from '../../services/department.service';
 import { timer } from 'rxjs';
-import { UserRoles } from '../models/Roles.enum';
-import { element } from 'protractor';
 
 @Component({
   selector: 'app-user-management',
@@ -65,13 +61,9 @@ export class UserManagementComponent implements OnInit {
   }
 
   showAll() {
-    const htmlCollection = this.getCopyOfHtmlCollection();
+    const htmlCollection = this.getCopyOfHtmlCollection(this.editedElementList);
     if (htmlCollection.length !== 0) {
-      for (const targetElementID of htmlCollection) {
-        const inputElement = document.getElementById(targetElementID)
-          .firstChild as HTMLInputElement;
-        inputElement.disabled = true;
-      }
+      this.manageDisabledInputFieldsById(htmlCollection, true);
       this.submitDataButtonNotActive = true;
       this.sentDataButtonNotActive = false;
     }
@@ -79,22 +71,57 @@ export class UserManagementComponent implements OnInit {
 
   sentData() {
     if (confirm('ARE YOU SURE TO MAKE CHANGES?')) {
-      const htmlCollection = this.getCopyOfHtmlCollection();
+      const htmlCollection = this.getCopyOfHtmlCollection(
+        this.editedElementList
+      );
       for (const targetElementID of htmlCollection) {
         const inputField = document.getElementById(targetElementID);
         inputField.classList.remove('editedField');
         inputField.classList.add('submittedField');
       }
+
+      // CALL API - BUT MOCKED
+      timer(2000).subscribe(event => {
+        this.reladUserList();
+      });
     } else {
       console.log('NO');
     }
     this.sentDataButtonNotActive = true;
   }
 
-  getCopyOfHtmlCollection(): Array<string> {
+  reladUserList() {
+    this.editedElementList = document.getElementsByClassName('submittedField');
+    const htmlCollection: Array<string> = this.getCopyOfHtmlCollection(
+      this.editedElementList
+    );
+
+    for (const targetElementID of htmlCollection) {
+      const inputField = document.getElementById(targetElementID);
+      inputField.classList.remove('submittedField');
+      inputField.classList.add('normalField');
+    }
+
+    this.manageDisabledInputFieldsById(htmlCollection, false);
+    this.submitDataButtonNotActive = false;
+    this.sentDataButtonNotActive = true;
+  }
+
+  manageDisabledInputFieldsById(
+    htmlCollection: Array<string>,
+    isDisabled: boolean
+  ) {
+    for (const targetElementID of htmlCollection) {
+      const inputElement = document.getElementById(targetElementID)
+        .firstChild as HTMLInputElement;
+      inputElement.disabled = isDisabled;
+    }
+  }
+
+  getCopyOfHtmlCollection(htmlCollection: HTMLCollection): Array<string> {
     let copiedList: Array<string> = new Array();
-    for (var i = 0; i < this.editedElementList.length; i++) {
-      copiedList.push(this.editedElementList[i].id);
+    for (var i = 0; i < htmlCollection.length; i++) {
+      copiedList.push(htmlCollection[i].id);
     }
     return copiedList;
   }

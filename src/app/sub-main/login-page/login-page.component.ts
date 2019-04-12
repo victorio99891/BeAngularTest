@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../../services/login.service';
 import { CookieService } from 'ngx-cookie-service';
-import { UserModel } from '../models/UserModel';
+import { UserModel } from '../../models/UserModel';
 import { Router } from '@angular/router';
 import { Observable, timer } from 'rxjs';
 
